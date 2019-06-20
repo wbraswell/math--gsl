@@ -293,7 +293,10 @@ sub check_gsl_version {
 
     print "Checking for GSL using gsl-config\n";
 
-    my $gsl_version = qx{gsl-config --version};
+    my $explicit_sh = '';
+    if ( $^O eq 'MSWin32' ) { $explicit_sh = 'sh '; }
+
+    my $gsl_version = qx{$explicit_sh gsl-config --version};
     if (not defined $gsl_version) {
         print "
 ***
@@ -304,9 +307,10 @@ sub check_gsl_version {
     }
 
     chomp($gsl_version);
-    chomp(my $gsl_prefix  = qx{gsl-config --prefix});
-    chomp(my $gsl_cflags  = qx{gsl-config --cflags});
-    chomp(my $gsl_libs    = qx{gsl-config --libs});
+
+    chomp(my $gsl_prefix  = qx{$explicit_sh gsl-config --prefix});
+    chomp(my $gsl_cflags  = qx{$explicit_sh gsl-config --cflags});
+    chomp(my $gsl_libs    = qx{$explicit_sh gsl-config --libs});
 
     my $path_system = catfile(qw/swig system.i/);
 
