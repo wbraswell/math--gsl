@@ -154,6 +154,12 @@ print "Have a great day!\n";
 
 sub swig_version {
     my $swig = GSLBuilder::swig_binary_name();
+
+
+# START HERE: replace "FOOBAR" below w/ correct format to call `swig` binary in Windows
+#    if ( $^O eq 'MSWin32' ) { $swig = 'FOOBAR ' . $swig; }
+
+
     my $cmd  = "$swig -version";
     my $out  = `$cmd`;
 
@@ -294,6 +300,9 @@ sub check_gsl_version {
     print "Checking for GSL using gsl-config\n";
 
     my $config_command = 'gsl-config';
+
+# START HERE: replace "STRAWB~1/..." below w/ correct format to call `gsl-config` shell script in Windows
+#    if ( $^O eq 'MSWin32' ) { $config_command = 'sh gsl-config'; }  # is this good enough?
     if ( $^O eq 'MSWin32' ) { $config_command = 'sh C:\STRAWB~1\perl\site\lib\auto\share\dist\Alien-GSL\bin\gsl-config'; }
 
     my $gsl_version = qx{$config_command --version};
